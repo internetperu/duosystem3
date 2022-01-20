@@ -1,0 +1,221 @@
+1. Actualizar el .htacces segun se use, 
+la configuracion actual es para que trabaje en el directorio / , puedes cambiarlo a /cualquier  el ejemplo esta comentado en el .htaccess
+
+2. en clases/configuracion.php se configura el template que se usara
+dentro de configuracion esta la explicacion de cada variable
+
+public $general=array(
+		"base_de_datos"=>0,
+		"dir_data"=>"w", // directorio desde donde se tomara los archivos en este caso w
+		"dir_mobile"=>"generic", // si es celular se tomara w/generic
+		"dir_tablet"=>"generic",	// si es tablet se tomarta w/generic
+		"dir_desktop"=>"generic",	// si es desktop se tomara w/generic
+
+		"engine"=>"indice.php", // archivo del motor principal
+		"base"=>"", // NO modificar, el Script lo genera automaticamente raiz del script ejemplo: /s2/ si se esta ejecutando desde /s2 , si es desde el directorio raiz se devolvera vacio
+		"base_doc"=>"", // NO modificar, el Script lo genera automaticamente raiz del directorio ejemplo /dir/eee  si se llamo a /dir/eee/aaa.html
+		"base_size"=>0, // NO modificar, el Script lo genera automaticamente
+		"xml_ext"=>"xml", // Experimental
+		"xml_hidden"=>0, // Experimental
+		"template_mime_type"=>"text/html", // Experimental
+		"sep"=>"<!-- DS.SEP-CO001 -->", // SEPARADOR A USAR dentro de los HTML si no se usa no se pasaran los valores a title, meta, head, ni scripts
+		"ext"=>array("html","htm"), // extensiones para las cuales procesar con template, en caso de no tener condiciones EXPERIMENTAL
+		"index"=>array("index.html","index.html","indice.html","indice.html","default.html","default.htm","Default.html","Default.html","home.html"),
+		"tipo"=>1 // Tipo de chequeo principal directorio, 1, movil, 2 tablet, 3 desktop EXPERIMENTAL
+
+		);
+	/* explicacion de titulo_pos
+	
+	si se llama a un archivo ejemplo.html y este tiene un <title>HOLA</title>
+	si titulo pos es 1
+	se generara <title>Duosystem - HOLA</title>
+	el separador tambien se personaliza
+	si es 2
+	se generara <title>HOLA - Duosystem</title>
+	si es 0
+	se generara <title>HOLA</title>
+
+	si el archivo llamado no tiene title o esta en blanco, se usara el del template
+	se generara <title>Duosystem</title>
+
+	TIPOS DE DISPOSITIVO
+		0: PC de Escritorio
+		1: Celular
+		2: Tablet
+		***
+		tipos propuestos
+		***
+		3: Smartwatch
+		4: SmartTV (webTV)
+		5: Consola de Juego (Nintendo, Ps, Xbox, Atari, Etc)
+	*/
+	public $plantilla=array(
+		"contenedor"=>"themes",
+		"plantilla"=>"general",
+		"entorno"=>"frontend", // entorno del template ejemplo /themes/general/frontend
+		"template_main"=>"template_main.html",
+		"titulo"=>"Duosystem",
+		"titulo_pos"=>1, // 1 Al inicio ,2 al final, 0 usar titulo enviado por archivo, si no tiene se usa el titulo anterior
+		"titulo_sep"=>" - ", // Separador de titulo
+		// SI no se especifica en el archivo XML que plantilla usar segun dispositivo, se tomara de aqui los valores
+		"dispositivo"=>array(
+			0=>array(
+				"plantilla"=>"general",
+				"entorno"=>"frontend",
+				"template_main"=>"template_main.html"
+				),
+			1=>array(
+				"plantilla"=>"general",
+				"entorno"=>"frontend",
+				"template_main"=>"template_main.html"
+				),
+			2=>array(
+				"plantilla"=>"general",
+				"entorno"=>"frontend",
+				"template_main"=>"template_main.html"
+				)
+
+			),
+		"http_codes"=>array(
+			"404"=>"404.html",
+			"500"=>"500.html",
+			"505"=>"500.html",
+			)
+		);
+3. en los directorios w/desktop mobile o tablet, 
+	-si en el url no se pone index.html se buscara 1 y se pasara el resultado.
+	-si existe un index.html.xml se leera las condiciones y se pasara al motor de plantilla
+	-si existe el archivo ejemplo /cuca/arveja/eros.html pero no su xml, se procesa la plantilla y se pasa
+	-si se llama ejemplo a /cuca/arveja/eros2.html, pero dicho archivo no existe, pero si su XML, se procesara el XML, y se pasara los valores a la plantilla
+	-si se trata de cargar un archivo diferente a html o htm, este se procesara normalmente
+	NOTA, si en /w/desktop existe una carpeta imagenes y dentro jpg o png, ese se puede llamar directamente desde el html como imagenes/nombrearchivo.jpg, siempre que no exista un directorio en la carpeta principal con el mismo nombre de archivo o directorio, pues si existe en la raiz estos archivos tienen preferencia.
+
+4. Explicacion del XML un ejemplo se encuenta en w/generic/index.html.xml
+<?xml version="1.0" ?>
+<condiciones>
+	<!-- -->
+	<condicion>
+		<OS>Windows</OS>
+		<device>1</device> // Puede ser 0: Desktop , 1: Celular, 2: tablet
+		<template></template>
+		<entorno></entorno>
+		<template_main></template_main>
+		<templateless></templateless> // Si es 1, solo se pasa el html, sin la plantilla
+		<download></download> // si es 1, se fuerza a descargar el archivo
+		<cargar>index_d_windows.html</cargar> // Se carga este archivo si las condiciones de que sea windows el Sistema operativo y Desktop
+	</condicion>
+	<condicion>
+		<OS>Mac</OS>
+		<device>0</device> 
+		<cargar>index_d_mac.html</cargar>
+	</condicion>
+	<condicion>
+		<OS>Linux</OS>
+		<device>0</device> 
+		<cargar>index_d_linux.html</cargar>
+	</condicion>
+
+	<condicion>
+		<OS>Android</OS>
+		<device>1</device> 
+		<cargar>index_m_android.html</cargar>
+	</condicion>
+	<condicion>
+		<OS>iOS</OS>
+		<device>1</device> 
+		<cargar>index_m_ios.html</cargar>
+	</condicion>
+
+	<condicion> <!-- Aqui caen todo el resto de celulares que no son android ni iOS , como Blackberry, no es por la marca sino por el sistema operativo que usan, aqui no se usa OS pero si device -->
+		<device>1</device> 
+		<cargar>index_m_otros.html</cargar>
+	</condicion>
+
+
+	<condicion>
+		<OS>iOS</OS>
+		<device>2</device> 
+		<cargar>index_t_ios.html</cargar>
+	</condicion>
+	<condicion>
+		<OS>iPadOS</OS>
+		<device>2</device> 
+		<cargar>index_t_ios.html</cargar>
+	</condicion>
+
+	<condicion>
+		<OS>Android</OS>
+		<device>2</device> 
+		<cargar>index_t_android.html</cargar>
+	</condicion>
+	
+	<default>
+		<template></template>
+		<entorno></entorno>
+		<template_main></template_main>
+		<templateless></templateless> // Si es 1, solo se pasa el html, sin la plantilla
+		<download></download> // si es 1, se fuerza a descargar el archivo
+		<cargar>eros_default.html</cargar> // Si Ninguna condicion se cumple se carga este archivo
+	</default>
+</condiciones>
+
+valores posinles para <OS></OS>
+		'Windows'         	
+        'Mac'				
+        'AIX'				
+        'IRIX'				
+        'Linux'				
+        'Android'         
+        'BlackBerryOS'      
+        'PalmOS'            
+        'SymbianOS'         
+        'WindowsMobileOS'   
+        'WindowsPhoneOS'   
+        'iOS'               
+        'MeeGoOS'           
+        'MaemoOS'           
+        'JavaOS'            
+        'webOS'             
+        'badaOS'            
+        'BREWOS'           
+5. Explicacion del HTML
+puede tener el separador que esta en config y debe tener 5 partes, o sin separador(se pasa el archivo directo a la plantilla), 
+
+ejemplo de html separado
+<title> Default </title>
+<!-- DS.SEP-CO001 -->
+<meta name="console.log" content="cuca"> AQUI VA LO QUE IRIA EN META TAGS, Keywords, etc, puede ser multiples lineas
+<!-- DS.SEP-CO001 -->
+<!-- SECCION LINKS o cosas dentro de head pe-->
+<!-- DS.SEP-CO001 -->
+	<!-- Aqui va el contenido principal pe -->
+	<strong>EROS DEFAULT</strong>
+<!-- DS.SEP-CO001 -->
+	<!-- Cualquier cosa antes de cerrar el Body-->
+
+Variables dentro de html
+Si es dentro del directorio plantilla 
+ejemplo /themes/plantilla/general/frontend/template_main.html
+{(THIS)} hace referencia a:
+/themes/plantilla/general
+si el motor de plantillas se esta cargando desde un directorio ejemplo /s2
+el valor de {(THIS)}
+ejemplo
+<link href="{(THIS)}/frontend/css/animate.css" rel="stylesheet" type="text/css">
+
+/s2//themes/plantilla/general
+{(BASE)} hace referencia al documento base, si es /, sera "" vacio,
+si desea llamar a un archivo llamado documentos desde raiz puede hacerlo
+<a href="documentos.html"></a>
+ó <a href="{(BASE)}/documentos.html"></a>
+
+----
+archivo dentro de w/generic/cualquier.html
+{(THIS)}
+hace referencia al directorio actual
+si estas en http://duosystem3.ext/cuca/arveja/eros.html
+<a href="{(THIS)}/documentos.html"></a>
+generara
+<a href="/cuca/arveja/documentos.html"></a>
+tambien puede usar el referenciador normal pues el navegador detectara que esta en un directorio y generara el enlace normal.
+<a href="documentos.html"></a>

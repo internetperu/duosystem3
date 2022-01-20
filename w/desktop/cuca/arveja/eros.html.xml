@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<condiciones>
+	<book>
+		<Booktitle>The Wandering Oz</Booktitle>
+		<PublicationDate>2007</PublicationDate>
+	</book>
+	<book>
+		<Booktitle>The Roaming Fox</Booktitle>
+		<PublicationDate>2009</PublicationDate>
+	</book>
+	<book>
+		<Booktitle>The Dominant Lion</Booktitle>
+		<PublicationDate>2012</PublicationDate>
+	</book>
+</condiciones>

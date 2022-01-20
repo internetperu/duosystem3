@@ -1,0 +1,63 @@
+<?xml version="1.0" ?>
+<condiciones>
+	<!-- -->
+	<condicion>
+		<OS>Windows</OS>
+		<device>0</device> 
+		<cargar>index_d_windows.html</cargar>
+	</condicion>
+	<condicion>
+		<OS>Mac</OS>
+		<device>0</device> 
+		<cargar>index_d_mac.html</cargar>
+	</condicion>
+	<condicion>
+		<OS>Linux</OS>
+		<device>0</device> 
+		<cargar>index_d_linux.html</cargar>
+	</condicion>
+
+	<condicion>
+		<OS>Android</OS>
+		<device>1</device> 
+		<cargar>index_m_android.html</cargar>
+	</condicion>
+	<condicion>
+		<OS>iOS</OS>
+		<device>1</device> 
+		<cargar>index_m_ios.html</cargar>
+	</condicion>
+
+	<condicion> <!-- Aqui caen todo el resto de celulares que no son android ni iOS , como Blackberry, no es por la marca sino por el sistema operativo que usan, aqui no se usa OS pero si device -->
+		<device>1</device> 
+		<cargar>index_m_otros.html</cargar>
+	</condicion>
+
+
+	<condicion>
+		<OS>iOS</OS>
+		<device>2</device> 
+		<cargar>index_t_ios.html</cargar>
+	</condicion>
+	<condicion>
+		<OS>iPadOS</OS>
+		<device>2</device> 
+		<cargar>index_t_ios.html</cargar>
+	</condicion>
+
+	<condicion>
+		<OS>Android</OS>
+		<device>2</device> 
+		<cargar>index_t_android.html</cargar>
+	</condicion>
+
+	<default>
+		<!-- puede estar sin declara default, se tomara el archivo llamado como el archivo a cargar-->
+		<template></template>
+		<entorno></entorno>
+		<template_main></template_main>
+		<templateless></templateless>
+		<download></download>
+		<cargar>index_default.html</cargar>
+	</default>
+</condiciones>

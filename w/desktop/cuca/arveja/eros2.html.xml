@@ -1,0 +1,44 @@
+<?xml version="1.0" ?>
+<condiciones>
+	<!-- -->
+	<condicion>
+		<OS>iOS</OS>
+		<device>1</device> <!-- 0: Desktop 1; Celular 2: Tablet esta propiedad no esta presente en default por obvias razones -->
+		<arq><!-- Experimental --></arq>
+		<version><!-- Experimental --></version>
+		<rv><!-- Experimental --></rv>
+		<navegador><!-- Experimental --></navegador>
+		<marca><!-- Experimental --></marca>
+		<modelo><!-- Experimental --></modelo>
+		<ip><!-- Experimental --></ip>
+		<country><!-- Experimental --></country><!-- en Minusculas, separado por , ejem pe,es,us,aq-->
+		<fecha></fecha><!-- Dia especifico o rango de fechas formato YYYY-mm-dd si va hacia otra fecha futura separarlo con espacio-->
+		<hora>08:00:00 08:20:00</hora> <!-- rango de horas o hora especifica HH:mm:ss-->
+		<template></template>
+		<template_main></template_main>
+		<cargar>eros-ios.html</cargar>
+	</condicion>
+	<condicion>
+		<OS>WindowsS</OS> <!-- puse Windowsx para probar el comportamiento de default-->
+		<device>0</device>
+		<dispositivo>0</dispositivo>
+		<arq><!-- Experimental --></arq>
+		<version><!-- Experimental --></version>
+		<rv><!-- Experimental --></rv>
+		<navegador><!-- Experimental --></navegador>
+		<marca><!-- Experimental --></marca>
+		<modelo><!-- Experimental --></modelo>
+		<template></template>
+		<template_main></template_main>
+		<cargar>eros2-windows.html</cargar>
+	</condicion>
+	<default>
+		<!-- puede estar sin declara default, se tomara el archivo llamado como el archivo a cargar-->
+		<template></template>
+		<entorno></entorno>
+		<template_main></template_main>
+		<templateless></templateless>
+		<download></download>
+		<cargar>eros_default.html</cargar>
+	</default>
+</condiciones>

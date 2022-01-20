@@ -1,0 +1,15 @@
+DirectoryIndex index.pl index.php indice.php index.html index.htm default.htm
+# BEGIN Sistema
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /duosystem/s2/
+#RewriteBase /
+RewriteRule ^indice\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /duosystem/s2/indice.php [L]
+#RewriteRule . /indice.php [L]
+</IfModule>
+
+# END Sistema
+
